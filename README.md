@@ -2,7 +2,7 @@
 
 ## Database Schema Design
 
-`<insert database schema design here>`
+![Alt text](./images/image.png?raw=true "Title")
 
 ## API Documentation
 
@@ -53,7 +53,7 @@ Returns the information about the current user that is logged in.
 - Request
 
   - Method: Get
-  - URL: /user/me
+  - URL: /users/me
   - Body: none
 
 - Successful Response
@@ -81,7 +81,7 @@ information.
 - Request
 
   - Method: Post
-  - URL: /user/login
+  - URL: /users/login
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -151,7 +151,7 @@ user's information.
 - Request
 
   - Method: Post
-  - URL: /users
+  - URL: /users/signup
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -267,7 +267,7 @@ Returns all the spots owned (created) by the current user.
 - Request
 
   - Method: Get
-  - URL: /users/me/spots
+  - URL: /spots
   - Body: none
 
 - Successful Response
@@ -366,7 +366,7 @@ Creates and returns a new spot.
 - Request
 
   - Method: Post
-  - URL: /users/me/spots
+  - URL: /spots
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -444,7 +444,7 @@ Updates and returns an existing spot.
 - Request
 
   - Method: Put
-  - URL: /users/me/spots/:spotid
+  - URL: /spots/:spotid
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -536,7 +536,7 @@ Deletes an existing spot.
 - Request
 
   - Method: Delete
-  - URL: /users/me/spots/:spotid
+  - URL: /spots/:spotid
   - Body: none
 
 - Successful Response
@@ -575,7 +575,7 @@ Returns all the reviews written by the current user.
 - Request
 
   - Method: Get
-  - URL: /users/me/reviews
+  - URL: /reviews
   - Body: none
 
 - Successful Response
@@ -681,7 +681,7 @@ Create and return a new review for a spot specified by id.
 - Request
 
   - Method: Post
-  - URL: /users/me/spots/:spotid/reviews
+  - URL: /spots/:spotid/reviews
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -767,7 +767,7 @@ Update and return an existing review.
 - Request
 
   - Method: Put
-  - URL: /users/me/spots/:spotid/reviews/:reviewid
+  - URL: spots/:spotid/reviews/:reviewid
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -839,7 +839,7 @@ Delete an existing review.
 - Request
 
   - Method: Delete
-  - URL: /users/me/spots/:spotid/reviews/:reviewid
+  - URL: /spots/:spotid/reviews/:reviewid
   - Body: none
 
 - Successful Response
@@ -878,7 +878,7 @@ Return all the bookings that the current user has made.
 - Request
 
   - Method: Get
-  - URL: /users/me/bookings
+  - URL: /bookings
   - Body: none
 
 - Successful Response
@@ -1061,7 +1061,7 @@ Update and return an existing booking.
 - Request
 
   - Method: Put
-  - URL: /users/me/bookings/:bookingid
+  - URL: /bookings/:bookingid
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -1148,7 +1148,7 @@ Delete an existing booking.
 - Request
 
   - Method: Delete
-  - URL: /users/me/bookings/:bookingid
+  - URL: /bookings/:bookingid
   - Body: none
 
 - Successful Response
@@ -1252,7 +1252,7 @@ Create and return a new image for a review specified by id.
 - Request
 
   - Method: Post
-  - URL: /users/me/spots/:spotid/reviews/:reviewid/images
+  - URL: /spots/:spotid/reviews/:reviewid/images
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -1318,7 +1318,7 @@ Delete an existing image.
 - Request
 
   - Method: Delete
-  - URL: /users/me/spots/:spotid/reviews/:reviewid/images/:imageid
+  - URL: /spots/:spotid/reviews/:reviewid/images/:imageid
   - Body: none
 
 - Successful Response
