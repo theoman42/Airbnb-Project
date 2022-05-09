@@ -627,7 +627,7 @@ Returns all the reviews that belong to a spot specified by id.
 - Request
 
   - Method: Get
-  - URL: /spots/:spotid/reviews
+  - URL: /spots/:spotId/reviews
   - Body: none
 
 - Successful Response
@@ -681,7 +681,7 @@ Create and return a new review for a spot specified by id.
 - Request
 
   - Method: Post
-  - URL: /spots/:spotid/reviews
+  - URL: /spots/:spotId/reviews
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -767,7 +767,7 @@ Update and return an existing review.
 - Request
 
   - Method: Put
-  - URL: spots/:spotid/reviews/:reviewid
+  - URL: spots/:spotId/reviews/:reviewid
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -839,7 +839,7 @@ Delete an existing review.
 - Request
 
   - Method: Delete
-  - URL: /spots/:spotid/reviews/:reviewid
+  - URL: /spots/:spotId/reviews/:reviewid
   - Body: none
 
 - Successful Response
@@ -925,7 +925,7 @@ Return all the bookings for a spot specified by id.
 - Request
 
   - Method: Get
-  - URL: /spots/:spotid/bookings
+  - URL: /spots/:spotId/bookings
   - Body: none
 
 - Successful Response: If you ARE NOT the owner of the spot.
@@ -998,7 +998,7 @@ Create and return a new booking from a spot specified by id.
 - Request
 
   - Method: Post
-  - URL: /spots/:spotid/bookings
+  - URL: /spots/:spotId/bookings
   - Body: none
 
 - Successful Response
@@ -1202,7 +1202,7 @@ Create and return a new image for a spot specified by id.
 - Request
 
   - Method: Get
-  - URL: /spots/:spotid/images
+  - URL: /spots/:spotId/images
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -1252,7 +1252,7 @@ Create and return a new image for a review specified by id.
 - Request
 
   - Method: Post
-  - URL: /spots/:spotid/reviews/:reviewid/images
+  - URL: /spots/:spotId/reviews/:reviewId/images
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -1318,7 +1318,7 @@ Delete an existing image.
 - Request
 
   - Method: Delete
-  - URL: /spots/:spotid/reviews/:reviewid/images/:imageid
+  - URL: /spots/:spotId/reviews/:reviewId/images/:imageid
   - Body: none
 
 - Successful Response
