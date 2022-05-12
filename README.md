@@ -1061,7 +1061,7 @@ Update and return an existing booking.
 - Request
 
   - Method: Put
-  - URL: /bookings/:bookingid
+  - URL: /bookings/:bookingId
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -1148,7 +1148,7 @@ Delete an existing booking.
 - Request
 
   - Method: Delete
-  - URL: /bookings/:bookingid
+  - URL: /bookings/:bookingId
   - Body: none
 
 - Successful Response
@@ -1318,7 +1318,7 @@ Delete an existing image.
 - Request
 
   - Method: Delete
-  - URL: reviews/:reviewId/images/:imageId
+  - URL: images/:imageId
   - Body: none
 
 - Successful Response
