@@ -308,7 +308,7 @@ Returns the details of a spot specified by its id.
 - Request
 
   - Method: Get
-  - URL: /spots/:spotid
+  - URL: /spots/:spotId
   - Body: none
 
 - Successful Response
@@ -444,7 +444,7 @@ Updates and returns an existing spot.
 - Request
 
   - Method: Put
-  - URL: /spots/:spotid
+  - URL: /spots/:spotId
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -536,7 +536,7 @@ Deletes an existing spot.
 - Request
 
   - Method: Delete
-  - URL: /spots/:spotid
+  - URL: /spots/:spotId
   - Body: none
 
 - Successful Response
@@ -767,7 +767,7 @@ Update and return an existing review.
 - Request
 
   - Method: Put
-  - URL: spots/:spotId/reviews/:reviewid
+  - URL: spots/:spotId/reviews/:reviewId
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -839,7 +839,7 @@ Delete an existing review.
 - Request
 
   - Method: Delete
-  - URL: /spots/:spotId/reviews/:reviewid
+  - URL: /spots/:spotId/reviews/:reviewId
   - Body: none
 
 - Successful Response
@@ -1252,7 +1252,7 @@ Create and return a new image for a review specified by id.
 - Request
 
   - Method: Post
-  - URL: /spots/:spotId/reviews/:reviewId/images
+  - URL: reviews/:reviewId/images
   - Headers:
     - Content-Type: application/json
   - Body:
@@ -1318,7 +1318,7 @@ Delete an existing image.
 - Request
 
   - Method: Delete
-  - URL: /spots/:spotId/reviews/:reviewId/images/:imageid
+  - URL: reviews/:reviewId/images/:imageId
   - Body: none
 
 - Successful Response
