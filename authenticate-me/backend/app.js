@@ -12,7 +12,7 @@ const routes = require("./routes");
 const { environment } = require("./config");
 const isProduction = environment === "production";
 
-//initialzie the app
+//initialize the app
 const app = express();
 
 //logging
