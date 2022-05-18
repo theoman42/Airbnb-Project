@@ -9,11 +9,9 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       spotId: {
-        allowNull: true,
         type: Sequelize.INTEGER,
       },
       reviewId: {
-        allowNull: true,
         type: Sequelize.INTEGER,
       },
       url: {

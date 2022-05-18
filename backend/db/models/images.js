@@ -21,11 +21,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
       },
       spotId: {
-        allowNull: true,
         type: DataTypes.INTEGER,
       },
       reviewId: {
-        allowNull: true,
         type: DataTypes.INTEGER,
       },
       url: {
