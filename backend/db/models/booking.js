@@ -30,21 +30,19 @@ module.exports = (sequelize, DataTypes) => {
       },
       startDate: {
         allowNull: false,
-        type: DataTypes.DATETIME,
+        type: DataTypes.DATE,
       },
       endDate: {
         allowNull: false,
-        type: DataTypes.DATETIME,
+        type: DataTypes.DATE,
       },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,
-        defaultValue: DataTypes.literal("CURRENT_TIMESTAMP"),
       },
       updatedAt: {
         allowNull: false,
         type: DataTypes.DATE,
-        defaultValue: DataTypes.literal("CURRENT_TIMESTAMP"),
       },
     },
     {

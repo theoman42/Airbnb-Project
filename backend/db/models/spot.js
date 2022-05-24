@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "CASCADE",
         hooks: true,
       });
-      Spot.hasMany(models.Images, {
+      Spot.hasMany(models.Image, {
         foreignKey: "spotId",
         onDelete: "CASCADE",
         hooks: true,
@@ -41,31 +41,18 @@ module.exports = (sequelize, DataTypes) => {
       address: {
         allowNull: false,
         type: DataTypes.STRING,
-        unique: true,
-        validate: {
-          len: [4, 30],
-        },
       },
       city: {
         allowNull: false,
         type: DataTypes.STRING,
-        validate: {
-          len: [4, 30],
-        },
       },
       state: {
         allowNull: false,
         type: DataTypes.STRING,
-        validate: {
-          len: [4, 30],
-        },
       },
       country: {
         allowNull: false,
         type: DataTypes.STRING,
-        validate: {
-          len: [4, 30],
-        },
       },
       lat: {
         allowNull: false,
@@ -78,9 +65,6 @@ module.exports = (sequelize, DataTypes) => {
       name: {
         allowNull: false,
         type: DataTypes.STRING,
-        validate: {
-          len: [4, 30],
-        },
       },
       description: {
         allowNull: false,
@@ -93,12 +77,10 @@ module.exports = (sequelize, DataTypes) => {
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,
-        defaultValue: DataTypes.literal("CURRENT_TIMESTAMP"),
       },
       updatedAt: {
         allowNull: false,
         type: DataTypes.DATE,
-        defaultValue: DataTypes.literal("CURRENT_TIMESTAMP"),
       },
     },
     {
