@@ -4,15 +4,12 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     queryInterface.addColumn("Users", "firstName", {
       type: Sequelize.STRING,
-      defaultValue: "Jovi",
       allowNull: false,
     });
     queryInterface.addColumn("Users", "lastName", {
       type: Sequelize.STRING,
-      defaultValue: "McNeal",
       allowNull: false,
     });
-    queryInterface.addColumn("Users", "isHost", { type: Sequelize.BOOLEAN });
 
     /**
      * Add altering commands here.
