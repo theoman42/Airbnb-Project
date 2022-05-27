@@ -627,7 +627,7 @@ Returns all the reviews that belong to a spot specified by id.
 - Request
 
   - Method: Get
-  - URL: /spots/:spotId/reviews
+  - URL: /reviews/spots/:spotId
   - Body: none
 
 - Successful Response
@@ -1201,7 +1201,7 @@ Create and return a new image for a spot specified by id.
 - Require proper authorization: Spot must belong to the current user
 - Request
 
-  - Method: Get
+  - Method: Post
   - URL: /spots/:spotId/images
   - Headers:
     - Content-Type: application/json
