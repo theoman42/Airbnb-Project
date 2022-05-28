@@ -627,7 +627,7 @@ Returns all the reviews that belong to a spot specified by id.
 - Request
 
   - Method: Get
-  - URL: /reviews/spots/:spotId
+  - URL: /spots/:spotId/reviews
   - Body: none
 
 - Successful Response
