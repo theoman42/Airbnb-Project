@@ -180,7 +180,7 @@ router.get("/:spotId", validateSpot, async (req, res) => {
 });
 
 router.get("/", async (req, res) => {
-  const spots = await Spot.findAll({ include: Image });
+  const spots = await Spot.findAll({ include: Image.url });
   res.json(spots);
 });
 
