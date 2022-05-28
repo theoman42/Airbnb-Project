@@ -179,10 +179,8 @@ router.get("/:spotId", validateSpot, async (req, res) => {
   res.json(spots);
 });
 
-//GET ALL SPOTS OWNED BY THE CURRENT USER *AUTH*
-
 router.get("/", async (req, res) => {
-  const spots = await Spot.findAll();
+  const spots = await Spot.findAll({ include: Image });
   res.json(spots);
 });
 
