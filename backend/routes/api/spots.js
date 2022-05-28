@@ -181,7 +181,7 @@ router.get("/:spotId", validateSpot, async (req, res) => {
 
 router.get("/", async (req, res) => {
   const spots = await Spot.findAll({ include: Image });
-  res.json("Previewimage:", spots.image.url);
+  res.json("Previewimage:", spots.images.url);
 });
 
 //CREATE A SPOT *AUTH*
