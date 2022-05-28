@@ -170,6 +170,7 @@ router.get("/:spotId", validateSpot, async (req, res) => {
   const id = req.params["spotId"];
   const spot = await Spot.findOne({
     where: { id },
+    includes: {},
   });
   if (!spot) {
     let error = new Error("Spot couldn't be found");
@@ -181,9 +182,32 @@ router.get("/:spotId", validateSpot, async (req, res) => {
 
 router.get("/", async (req, res) => {
   const spots = await Spot.findAll({
-    include: { Image },
+    attributes: [
+      ["id", "id"],
+      ["userId", "ownerId"],
+      ["address", "address"],
+      ["city", "city"],
+      ["country", "country"],
+      ["lat", "lat"],
+      ["lng", "lng"],
+      ["name", "name"],
+      ["description", "description"],
+      ["price", "price"],
+      ["createdAt", "createdAt"],
+      ["updatedAt", "updatedAt"],
+    ],
+    include: {
+      model: Image,
+      as: "previewImage",
+      attributes: [["url", "url"]],
+      // where: {
+      //   id: image.spotId,
+      // },
+    },
   });
-  res.json(spots);
+  res.json({
+    spots,
+  });
 });
 
 //CREATE A SPOT *AUTH*
