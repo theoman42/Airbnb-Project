@@ -11,8 +11,8 @@ module.exports = {
           url: "google.com/images",
         },
         {
-          spotId: 1,
-          reviewId: null,
+          spotId: null,
+          reviewId: 1,
           url: "google.com/images/nice",
         },
       ],

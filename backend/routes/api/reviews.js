@@ -23,14 +23,19 @@ router.post("/:reviewId/images", requireAuth, async (req, res) => {
     error.status = 404;
     throw error;
   }
-  const newImage = Image.create({
+  const newImage = await Image.create({
     spotId: null,
     reviewId,
     url,
-    imageType: "review",
+    imageType: "Review",
   });
 
-  res.json(newImage);
+  res.json({
+    id: newImage.id,
+    imageableId: newImage.id,
+    imageableType: "Review",
+    url: newImage.url,
+  });
 });
 
 router.get("/", requireAuth, async (req, res) => {

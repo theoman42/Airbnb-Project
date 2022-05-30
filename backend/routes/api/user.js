@@ -3,82 +3,82 @@ const express = require("express");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 
-const { setTokenCookie, restoreUser } = require("../../utils/auth");
+const {
+  setTokenCookie,
+  restoreUser,
+  requireAuth,
+} = require("../../utils/auth");
 const { User } = require("../../db/models");
 
 const router = express.Router();
 
 const validateLogin = [
-  check("credential")
+  check("email")
     .exists({ checkFalsy: true })
     .notEmpty()
-    .withMessage("Please provide a valid email or username."),
+    .withMessage("Email is required"),
   check("password")
     .exists({ checkFalsy: true })
-    .withMessage("Please provide a password."),
+    .withMessage("Password is required"),
   handleValidationErrors,
 ];
 
 const validateSignup = [
-  check("email")
+  check("email").exists({ checkFalsy: true }).withMessage("Invalid email"),
+  check("firstName")
     .exists({ checkFalsy: true })
-    .isEmail()
-    .withMessage("Please provide a valid email."),
-  check("username")
+    .withMessage("First Name is required"),
+  check("lastName")
     .exists({ checkFalsy: true })
-    .isLength({ min: 4 })
-    .withMessage("Please provide a username with at least 4 characters."),
-  check("username").not().isEmail().withMessage("Username cannot be an email."),
-  check("password")
-    .exists({ checkFalsy: true })
-    .isLength({ min: 6 })
-    .withMessage("Password must be 6 characters or more."),
+    .withMessage("Last Name is required"),
   handleValidationErrors,
 ];
 
 router.post("/signup", validateSignup, async (req, res) => {
-  const { firstName, lastName, email, password, username } = req.body;
+  const { firstName, lastName, email, password } = req.body;
   const user = await User.signup({
     firstName,
     lastName,
     email,
-    username,
     password,
   });
 
   await setTokenCookie(res, user);
 
   return res.json({
-    user,
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    token: "",
   });
 });
 
-router.get("/me", restoreUser, (req, res) => {
+router.get("/me", restoreUser, requireAuth, (req, res) => {
   const { user } = req;
-  if (user) {
-    return res.json({
-      user: user.toSafeObject(),
-    });
-  } else return res.json({});
+  if (user) return res.json(user.toSafeObject());
+  else return res.json();
 });
 
 router.post("/login", validateLogin, async (req, res, next) => {
-  const { credential, password } = req.body;
-
-  const user = await User.login({ credential, password });
-
+  const { email, password } = req.body;
+  const user = await User.login({ email, password });
   if (!user) {
-    const err = new Error("Login failed");
+    const err = new Error("Invalid Credentials");
     err.status = 401;
-    err.title = "Login failed";
-    err.errors = ["Invalid Credentials"];
+    err.title = "Invalid Credentials";
+    //err.errors = ["Invalid Credentials"];
     return next(err);
   }
 
   await setTokenCookie(res, user);
 
   return res.json({
-    user,
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    token: "",
   });
 });
 

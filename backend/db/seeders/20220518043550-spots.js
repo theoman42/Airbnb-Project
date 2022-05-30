@@ -11,12 +11,12 @@ module.exports = {
           city: "Dallas",
           state: "TX",
           country: "USA",
-          lat: 146.3,
-          lng: 134.2,
+          lat: 38.8951,
+          lng: -77.0364,
           name: "Homey Dallas Home for the Homies",
           description:
             "A home once enjoyed by the homies, now available to the homies,",
-          price: 50,
+          price: 50.93,
         },
         {
           userId: 2,
@@ -24,8 +24,8 @@ module.exports = {
           city: "SF",
           state: "CA",
           country: "USA",
-          lat: 156.3,
-          lng: 113.2,
+          lat: 38.8951,
+          lng: -79.0364,
           name: "Homey SF Home for the Homies",
           description:
             "A home once SF lalal by the homies, now available to the homies,",

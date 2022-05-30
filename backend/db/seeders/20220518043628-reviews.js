@@ -6,9 +6,15 @@ module.exports = {
       "Reviews",
       [
         {
-          userId: 1,
+          userId: 2,
           spotId: 1,
           review: "Nice place for the homies",
+          stars: 4,
+        },
+        {
+          userId: 3,
+          spotId: 2,
+          review: "Nice place for the home dawgs",
           stars: 4,
         },
       ],

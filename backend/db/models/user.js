@@ -13,26 +13,22 @@ module.exports = (sequelize, DataTypes) => {
     static getCurrentUserById(id) {
       return User.scope("currentUser").findByPk(id);
     }
-    static async login({ credential, password }) {
+    static async login({ email, password }) {
       const { Op } = require("sequelize");
       const user = await User.scope("loginUser").findOne({
         where: {
-          [Op.or]: {
-            username: credential,
-            email: credential,
-          },
+          email,
         },
       });
       if (user && user.validatePassword(password)) {
         return await User.scope("currentUser").findByPk(user.id);
       }
     }
-    static async signup({ firstName, lastName, username, email, password }) {
+    static async signup({ firstName, lastName, email, password }) {
       const hashedPassword = bcrypt.hashSync(password);
       const user = await User.create({
         firstName,
         lastName,
-        username,
         email,
         hashedPassword,
       });
@@ -78,18 +74,18 @@ module.exports = (sequelize, DataTypes) => {
           len: [4, 30],
         },
       },
-      username: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          len: [4, 30],
-          isNotEmail(value) {
-            if (Validator.isEmail(value)) {
-              throw new Error("Cannot be an email.");
-            }
-          },
-        },
-      },
+      // username: {
+      //   type: DataTypes.STRING,
+      //   allowNull: true,
+      //   validate: {
+      //     len: [4, 30],
+      //     isNotEmail(value) {
+      //       if (Validator.isEmail(value)) {
+      //         throw new Error("Cannot be an email.");
+      //       }
+      //     },
+      //   },
+      // },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
