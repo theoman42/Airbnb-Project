@@ -9,6 +9,7 @@ const router = express.Router();
 router.post("/:reviewId/images", requireAuth, async (req, res) => {
   const { reviewId } = req.params;
   const { url } = req.body;
+  let { user } = req;
   const reviewExist = await Review.findOne({ where: { id: reviewId } });
   const imageCount = await Image.findAll({ where: { reviewId } });
   if (imageCount.length > 10) {
@@ -21,6 +22,12 @@ router.post("/:reviewId/images", requireAuth, async (req, res) => {
   if (!reviewExist) {
     let error = new Error("Review couldn't be found");
     error.status = 404;
+    throw error;
+  }
+
+  if (reviewExist.userId !== user.id) {
+    let error = new Error("Authentication Required");
+    error.status = 401;
     throw error;
   }
   const newImage = await Image.create({
@@ -68,6 +75,7 @@ router.get("/", requireAuth, async (req, res) => {
       },
       {
         model: Image,
+        as: "images",
         attributes: [["url", "url"]],
       },
     ],

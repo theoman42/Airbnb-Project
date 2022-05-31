@@ -108,6 +108,12 @@ router.post("/:spotId/images", requireAuth, async (req, res) => {
     error.status = 404;
     throw error;
   }
+  if (spotExist.userId !== user.id) {
+    let error = new Error("Authentication Required");
+    error.status = 401;
+    throw error;
+  }
+
   const newImage = await Image.create({
     spotId,
     reviewId: null,
@@ -181,14 +187,10 @@ router.post("/:spotId/bookings", requireAuth, async (req, res) => {
     error.status = 404;
     throw error;
   }
+  if (spotExist.userId === user.id) {
+    res.json("Cannot Edit own Booking");
+  }
   const { startDate, endDate } = req.body;
-  const allSpotTimes = await Booking.findAll({
-    where: { spotId },
-    attributes: [
-      ["startDate", "startDate"],
-      ["endDate", "endDate"],
-    ],
-  });
 
   const conflict = await Booking.findAll({
     where: {
@@ -245,6 +247,8 @@ router.get("/:spotId/reviews", async (req, res) => {
       },
       {
         model: Image,
+        as: "images",
+        attributes: [["url", "url"]],
       },
     ],
   });
@@ -305,24 +309,28 @@ router.put(
     reviewId = parseInt(reviewId);
     const { user } = req;
     //spot exists?
-    const spotExist = await Review.findOne({ where: { id: reviewId } });
-    if (!spotExist) {
+    const reviewExist = await Review.findOne({ where: { id: reviewId } });
+    if (!reviewExist) {
       let error = new Error("Review couldn't be found");
       error.status = 404;
       throw error;
     }
+    if (reviewExist.userId !== user.id) {
+      let error = new Error("Authentication Required");
+      error.status = 401;
+      throw error;
+    }
 
-    const r = await Review.update(
-      {
-        review,
-        stars,
-      },
-      { where: { id: reviewId } }
-    );
+    const r = await reviewExist.update({
+      review,
+      stars,
+    });
     res.json({
       id: r.spotId,
-      userId: r.userid,
+      userId: r.userId,
       spotId: r.spotId,
+      review: r.review,
+      stars: r.stars,
       createdAt: r.createdAt,
       updatedAt: r.updatedAt,
     });
@@ -331,6 +339,7 @@ router.put(
 
 router.delete("/:spotid/reviews/:reviewId", requireAuth, async (req, res) => {
   const { reviewId } = req.params;
+  let { user } = req;
   const reviewExist = await Review.findOne({
     where: { id: reviewId },
   });
@@ -339,9 +348,13 @@ router.delete("/:spotid/reviews/:reviewId", requireAuth, async (req, res) => {
     error.status = 404;
     throw error;
   }
-  const deletedReview = Review.destroy({
-    where: { id: reviewId },
-  });
+  if (reviewExist.userId !== user.id) {
+    let error = new Error("Authentication Required");
+    error.status = 401;
+    throw error;
+  }
+
+  await reviewExist.destroy();
   res.status(200);
   res.json({ message: "Succesfully Deleted", statusCode: 200 });
 });
@@ -356,6 +369,7 @@ router.get("/me", requireAuth, async (req, res) => {
       ["userId", "ownerId"],
       ["address", "address"],
       ["city", "city"],
+      ["state", "state"],
       ["country", "country"],
       ["lat", "lat"],
       ["lng", "lng"],
@@ -367,12 +381,11 @@ router.get("/me", requireAuth, async (req, res) => {
     ],
     include: {
       model: Image,
+      as: "images",
       attributes: [["url", "url"]],
     },
   });
   res.json({ spots });
-  // const spots = await Spot.findAll();
-  // res.json(spots);
 });
 
 router.get("/search", searchValidation, async (req, res, next) => {
@@ -433,6 +446,7 @@ router.get("/search", searchValidation, async (req, res, next) => {
     include: [
       {
         model: Image,
+        as: "images",
         attributes: ["url"],
       },
     ],
@@ -452,6 +466,7 @@ router.get("/:spotId", validateSpot, async (req, res) => {
       ["userId", "ownerId"],
       ["address", "address"],
       ["city", "city"],
+      ["state", "state"],
       ["country", "country"],
       ["lat", "lat"],
       ["lng", "lng"],
@@ -464,6 +479,7 @@ router.get("/:spotId", validateSpot, async (req, res) => {
     include: [
       {
         model: Image,
+        as: "images",
         attributes: [["url", "url"]],
       },
       {
@@ -492,6 +508,7 @@ router.get("/", async (req, res) => {
       ["userId", "ownerId"],
       ["address", "address"],
       ["city", "city"],
+      ["state", "state"],
       ["country", "country"],
       ["lat", "lat"],
       ["lng", "lng"],
@@ -503,6 +520,7 @@ router.get("/", async (req, res) => {
     ],
     include: {
       model: Image,
+      as: "images",
       attributes: [["url", "url"]],
     },
   });
@@ -561,7 +579,11 @@ router.put("/:spotId", requireAuth, validateSpotBody, async (req, res) => {
     error.status = 404;
     throw error;
   }
-
+  if (spotCheck.userId !== user.id) {
+    let error = new Error("Authentication Required");
+    error.status = 401;
+    throw error;
+  }
   const spot = await Spot.update(
     {
       address,
@@ -597,11 +619,18 @@ router.put("/:spotId", requireAuth, validateSpotBody, async (req, res) => {
 //DELETE A SPOT *AUTH*
 
 router.delete("/:spotId", requireAuth, async (req, res) => {
-  const { spotId } = req.params;
+  let { spotId } = req.params;
+  let { user } = req;
+  spotId = parseInt(spotId);
   const spotCheck = await Spot.findOne({ where: { id: spotId } });
   if (!spotCheck) {
     let error = new Error("Spot couldn't be found");
     error.status = 404;
+    throw error;
+  }
+  if (spotCheck.userId !== user.id) {
+    let error = new Error("Authentication Required");
+    error.status = 401;
     throw error;
   }
   const spot = await Spot.destroy({ where: { id: spotId } });

@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       Review.hasMany(models.Image, {
         foreignKey: "reviewId",
         onDelete: "CASCADE",
+        as: "images",
         hooks: true,
       });
     }

@@ -46,6 +46,11 @@ router.put("/:bookingId", requireAuth, async (req, res) => {
     error.status = 404;
     throw error;
   }
+  if (bookingExist.userId !== user.id) {
+    let error = new Error("Authentication Required");
+    error.status = 401;
+    throw error;
+  }
   if (bookingExist.startDate < today) {
     let error = new Error("Past bookings can't be modified");
     error.status = 400;
@@ -93,9 +98,19 @@ router.delete("/:bookingId", requireAuth, async (req, res) => {
   const deleteBooking = await Booking.findOne({
     where: { id: bookingId },
   });
+
   if (!deleteBooking) {
     let error = new Error("Booking couldn't be found");
     error.status = 400;
+    throw error;
+  }
+  const owner = await Spot.findOne({
+    where: { id: deleteBooking.spotId },
+  });
+
+  if (deleteBooking.userId !== user.id && owner.userId !== user.id) {
+    let error = new Error("Authentication Required");
+    error.status = 401;
     throw error;
   }
   if (deleteBooking.startDate < today) {

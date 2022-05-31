@@ -7,15 +7,22 @@ const router = express.Router();
 
 router.delete("/:imageId", requireAuth, async (req, res) => {
   const { imageId } = req.params;
+  let { user } = req;
   //const t = Image.f;
-  const deletedImage = await Image.destroy({
-    where: { id: imageId },
+  const image = await Image.findOne({
+    id: imageId,
   });
-  if (!deletedImage) {
+  if (!image) {
     let error = new Error("Image couldn't be found");
     error.status = 404;
     throw error;
   }
+  if (image.userId !== user.id) {
+    let error = new Error("Authentication Required");
+    error.status = 401;
+    throw error;
+  }
+  await image.destroy();
 
   res.json({
     message: "Successfully deleted",
