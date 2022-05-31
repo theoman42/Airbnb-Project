@@ -342,6 +342,7 @@ router.delete("/:spotid/reviews/:reviewId", requireAuth, async (req, res) => {
   const deletedReview = Review.destroy({
     where: { id: reviewId },
   });
+  res.status(200);
   res.json({ message: "Succesfully Deleted", statusCode: 200 });
 });
 //////////reviews//////////
@@ -604,7 +605,7 @@ router.delete("/:spotId", requireAuth, async (req, res) => {
     throw error;
   }
   const spot = await Spot.destroy({ where: { id: spotId } });
-
+  res.status(200);
   res.json({ message: "Succesfully Deleted", statusCode: 200 });
 });
 
