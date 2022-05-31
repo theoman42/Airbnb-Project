@@ -21,19 +21,19 @@ const searchValidation = [
     // .optional({ nullable: true })
     .withMessage("Size must be greater than or equal to 0"),
   check("maxLat")
-    .isLatLong()
+    // .isLatLong()
     .isDecimal()
     .withMessage("Maximum latitude is invalid"),
   check("minLat")
-    .isLatLong()
+    // .isLatLong()
     .isDecimal()
     .withMessage("Minimum latitude is invalid"),
-  check("maxlong")
-    .isLatLong()
+  check("maxLong")
+    // .isLatLong()
     .isDecimal()
-    .withMessage("Maximum longitutde is invalid"),
+    .withMessage("Maximum longitude is invalid"),
   check("minLong")
-    .isLatLong()
+    // .isLatLong()
     .isDecimal()
     .withMessage("Minimum longitude is invalid"),
   check("minPrice")
@@ -369,7 +369,7 @@ router.get("/me", requireAuth, async (req, res) => {
       attributes: [["url", "url"]],
     },
   });
-  res.json(spots);
+  res.json({ spots });
   // const spots = await Spot.findAll();
   // res.json(spots);
 });
@@ -377,8 +377,6 @@ router.get("/me", requireAuth, async (req, res) => {
 router.get("/search", searchValidation, async (req, res, next) => {
   let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } =
     req.query;
-
-  console.log(req.query);
 
   if (!size) size = 20;
   if (!page) page = 0;
@@ -391,24 +389,56 @@ router.get("/search", searchValidation, async (req, res, next) => {
 
   let where = {};
 
-  if (isProduction) {
-    if (title) where.title = { [Op.iLike]: `%${title}%` };
-    if (createdAt) where.createdAt = createdAt;
-  } else {
-    if (title) where.title = { [Op.like]: `%${title}%` };
-    if (createdAt) where.createdAt = createdAt;
+  //LATTITUDE
+  if (minLat) {
+    where.lat = {
+      [Op.gte]: minLat,
+    };
   }
 
-  let songs = await Song.findAll({
+  if (maxLat) {
+    where.lat = {
+      [Op.lte]: maxLat,
+    };
+  }
+  // LONGITUDE
+  if (minLng) {
+    where.lng = {
+      [Op.gte]: minLng,
+    };
+  }
+
+  if (maxLng) {
+    where.lng = {
+      [Op.lte]: maxLng,
+    };
+  }
+
+  // PRICE
+  if (minPrice) {
+    where.price = {
+      [Op.gte]: minPrice,
+    };
+  }
+
+  if (maxPrice) {
+    where.price = {
+      [Op.lte]: maxPrice,
+    };
+  }
+
+  const Spots = await Spot.findAll({
     where: { ...where },
-    ...pagination(page, size),
+    include: [
+      {
+        model: Image,
+        attributes: ["url"],
+      },
+    ],
   });
 
-  res.json({
-    Songs: songs,
-    page,
-    size,
-  });
+  res.status(200);
+  return res.json({ Spots, page, size });
 });
 
 router.get("/:spotId", validateSpot, async (req, res) => {

@@ -36,15 +36,15 @@ app.use(
 );
 
 // Set the _csrf token and create req.csrfToken method
-app.use(
-  csurf({
-    cookie: {
-      secure: isProduction,
-      sameSite: isProduction && "Lax",
-      httpOnly: true,
-    },
-  })
-);
+// app.use(
+//   csurf({
+//     cookie: {
+//       secure: isProduction,
+//       sameSite: isProduction && "Lax",
+//       httpOnly: true,
+//     },
+//   })
+// );
 
 app.use(routes);
 
@@ -64,15 +64,6 @@ app.use((err, _req, _res, next) => {
   }
   next(err);
 });
-
-// app.use((err, _req, _res, next) => {
-//   // check if error is a Sequelize error:
-//   if (err instanceof ValidationError) {
-//     err.errors = err.errors.map((e) => e.message);
-//     err.title = "Validation error";
-//   }
-//   next(err);
-// });
 
 app.use((err, _req, res, _next) => {
   res.status(err.status || 500);
