@@ -62,7 +62,7 @@ router.post("/signup", validateSignup, async (req, res) => {
     firstName: user.firstName,
     lastName: user.lastName,
     email: user.email,
-    token: "",
+    token: req.cookies.token,
   });
 });
 
@@ -90,7 +90,7 @@ router.post("/login", validateLogin, async (req, res, next) => {
     firstName: user.firstName,
     lastName: user.lastName,
     email: user.email,
-    token: "",
+    token: req.cookies.token,
   });
 });
 
