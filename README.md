@@ -1357,7 +1357,7 @@ Return spots filtered by query parameters.
 - Request
 
   - Method: Get
-  - URL: /search
+  - URL: spots/search
   - Query Parameters
     - page: integer, minimum: 0, maximum: 10, default: 0
     - size: integer, minimum: 0, maximum: 20, default: 20
