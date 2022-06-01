@@ -280,9 +280,9 @@ router.post(
     //review exist already?
     //////////////////////////////////////////////////////////////////////
     const reviewExist = await Review.findOne({
-      where: { spotId },
+      where: { spotId, userId: user.id },
     });
-    if (reviewExist && reviewExist.userId === user.id) {
+    if (reviewExist) {
       let error = new Error("User already has a review for this spot");
       error.status = 403;
       throw error;
